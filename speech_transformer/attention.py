@@ -56,7 +56,7 @@ class ScaledDotProductAttention(nn.Module):
         attn_distribution = torch.bmm(query, key) / self.sqrt_key_dim
 
         if mask is not None:
-            attn_distribution = attn_distribution.masked_fill(mask, -np.inf)
+            attn_distribution.masked_fill(mask, -np.inf)
 
         attn_distribution = F.softmax(attn_distribution, dim=-1)  # (batch, dec_T, enc_T)
         context = torch.bmm(attn_distribution, value)  # context shape : (batch, dec_T, enc_D << 1)
